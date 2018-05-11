@@ -3,13 +3,20 @@ const HEIGHT = 400;
 const xPlayer = 80;
 const ySol = HEIGHT - 50;
 const offSetSol = 20;
-const grav = 0.04;
+const gravNormal = 0.04
+const gravFast = 0.06;
+const gravSlow = 0.03;
+
+let grav = gravNormal;
+
 
 const vitObstacleInit = 5;
 let vitObstacle = vitObstacleInit;
 let score = 0;
-var obstacles ;
+var obstacles;
 var dino;
+
+var oneObstacle = false;
 
 
 function setup(){
@@ -53,6 +60,13 @@ function draw(){
 	if(score>500){
 		let faster = Math.floor(score / 500);
 		vitObstacle = vitObstacleInit + faster;
+		// If the speed of the game is at a certain point only spawn 1 obstacle 
+		if(!oneObstacle){
+			if(score>2000 && obstacles[1].x >= WIDTH){
+				obstacles.splice(1,1);
+				oneObstacle = true;
+			}
+		}
 	}
 	score++;
 }

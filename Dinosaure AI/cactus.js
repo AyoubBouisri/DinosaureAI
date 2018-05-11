@@ -32,7 +32,6 @@ function Cactus(wIntInit,hIntInit,xInit){
 	this.reset = function(){
 		this.x = WIDTH;
 		this.wInt = Math.floor(random(1,4));
-		console.log(this.wInt);
 		this.hInt = Math.floor(random(1,3));
 
 		this.width = w * this.wInt;
