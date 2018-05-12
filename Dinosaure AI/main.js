@@ -1,23 +1,27 @@
 const WIDTH = 1000;
 const HEIGHT = 400;
+//The x position of the player
 const xPlayer = 80;
+//The coordinates of the line that represents the ground and its offSet with where the player is.
 const ySol = HEIGHT - 50;
 const offSetSol = 20;
-const gravNormal = 0.04
-const gravFast = 0.06;
-const gravSlow = 0.03;
+// The 3 grav acceleration to simulate a long/small/normal jump
+const gravNormal = 0.08;
+const gravFast = 0.3;
+const gravSlow = 0.04;
+// Initial speed of the obstacles
+const vitObstacleInit = 5;
 
+// grav that will be applied on the player
 let grav = gravNormal;
 
-
-const vitObstacleInit = 5;
 let vitObstacle = vitObstacleInit;
 let score = 0;
 var obstacles;
 var dino;
-
 var oneObstacle = false;
 
+let gameOver = false;
 
 function setup(){
 	createCanvas(WIDTH,HEIGHT);
@@ -33,27 +37,44 @@ function draw(){
 	stroke(255);
 	line(0,ySol - offSetSol,WIDTH,ySol - offSetSol);
 	
-	// events to controle the dino
-
-	if(keyIsDown(DOWN_ARROW)){
-		dino.down(true);
-	}else{
-		dino.down(false);
+	
+	if(!gameOver){
+		// events to controle the dino
+		if(keyIsDown(UP_ARROW)){
+			dino.up(true);
+		}else{
+			dino.up(false);
+			if(keyIsDown(DOWN_ARROW)){
+				dino.down(true);
+			}else{
+				dino.down(false);
+			}
+		}
 	}
-	// draw and update the obstacles
-	for(let i =0;i<obstacles.length;i++){
-		obstacles[i].update();
-		obstacles[i].show();
+	
 
-	}
 
 	
 	// draw and update the dinosaur
-	dino.update();
+	if(!gameOver){
+		dino.update();
+		score++;
+	}
 	dino.show();
+	// draw and update the obstacles
+	for(let i =0;i<obstacles.length;i++){
+		if(!gameOver){
+			obstacles[i].update();
+		}
+		obstacles[i].show();
+		// check if the player intersects this obstacle
+		if(obstacles[i].intersects(dino)){
+			gameOver = true;
+		}
+	}
 	//afficher le score
 	fill(255);
-	textSize(32);
+	textSize(25);
 	text('Score : ' + score , 0,40);
 
 	// monter le score
@@ -68,16 +89,19 @@ function draw(){
 			}
 		}
 	}
-	score++;
+	
 }
 
 
 
 
 function keyPressed(){
-	// jump with space or up arrow
-	if(key == ' ' || keyCode === UP_ARROW){
-		dino.jump();
+	if(!gameOver){
+		// jump with space or up arrow
+		if(key == ' ' || keyCode === UP_ARROW){
+			dino.jump();
+		}
 	}
+	
 }
 

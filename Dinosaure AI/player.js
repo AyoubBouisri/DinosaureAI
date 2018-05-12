@@ -36,7 +36,7 @@ function Player(xInit, ySol){
 	// Draw a rectangle that represents the player.
 	this.show = function(){
 		noStroke();
-		fill(255);
+		fill(130,20,0);
 		rect(this.x,this.y,this.width,this.height);
 	}
 	// makes the player jump, can only jump if not in the air.
@@ -70,6 +70,25 @@ function Player(xInit, ySol){
 			}
 			
 
+		}else{
+			// The player is in the air so make him fall faster 
+			if(isPressed){
+				grav = gravFast;
+			}else{
+				grav = gravNormal;
+			}
+			
+		}
+	}
+
+	this.up = function(isPressed){
+		if(this.inAir){
+			// the player is in the air so make him fall slower
+			if(isPressed){
+				grav = gravSlow;
+			}else{
+				grav = gravNormal;
+			}
 		}
 	}
 

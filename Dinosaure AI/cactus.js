@@ -9,14 +9,15 @@ function Cactus(wIntInit,hIntInit,xInit){
 	this.hInt = hIntInit;
 	this.width = w * this.wInt;
 	this.height = h * this.hInt;
-
+	this.y = ySol - this.height;
 	this.x = xInit;
 
 	this.show = function(){
 
 			fill(255);
 			noStroke();
-			rect(this.x, ySol - this.height,this.width,this.height);
+			
+			rect(this.x, this.y,this.width,this.height);
 
 	}
 
@@ -37,7 +38,19 @@ function Cactus(wIntInit,hIntInit,xInit){
 		this.width = w * this.wInt;
 		this.height = h * this.hInt;
 
+		this.y = ySol - this.height;
+
 	}
 	
+	this.intersects = function(player){
+		// Methode that checks if its intersecting with the player
 
+		return !(
+				    this.x + this.width <= player.x           		 ||
+				    this.x           	>= player.x + player.width   ||
+				    this.y + this.height  	<= player.y              ||
+				    this.y           	>= player.y + player.height
+		 													 			);
+
+	}
 }
