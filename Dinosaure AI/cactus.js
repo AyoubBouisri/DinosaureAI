@@ -1,10 +1,10 @@
 
 // width and height are int values width :={1,2,3} height:= {1,2}
-function Cactus(wIntInit,hIntInit,xInit){
+function Obstacle(wIntInit,hIntInit,xInit){
 
 	const w = 25;
 	const h = 35;
-
+	const chanceToBeBird = 4; // out of 10
 	this.wInt = wIntInit;
 	this.hInt = hIntInit;
 	this.width = w * this.wInt;
@@ -35,10 +35,29 @@ function Cactus(wIntInit,hIntInit,xInit){
 		this.wInt = Math.floor(random(1,4));
 		this.hInt = Math.floor(random(1,3));
 
-		this.width = w * this.wInt;
-		this.height = h * this.hInt;
 
-		this.y = ySol - this.height;
+		let isBird = false;
+		if(this.wInt == 1){
+			// give it a chance to be a brid 
+			let chance = Math.floor(random(1,11));
+			if(chance <= 5){
+				// make it a bird
+				isBird = true;
+			}
+		}
+
+
+		// if its a bird give it the height it deserves
+		if(isBird){
+			this.height = h;
+			this.y = ySol - this.height - h * this.hInt;
+		}else{
+			this.height = h * this.hInt;
+			this.y = ySol - this.height;
+		}
+
+		this.width = w * this.wInt;
+		
 
 	}
 	

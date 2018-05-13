@@ -16,6 +16,7 @@ const vitObstacleInit = 5;
 let grav = gravNormal;
 
 let vitObstacle = vitObstacleInit;
+let speedRate = 200;
 let score = 0;
 var obstacles;
 var dino;
@@ -27,7 +28,7 @@ function setup(){
 	createCanvas(WIDTH,HEIGHT);
 	background(51);
 	dino = new Player(xPlayer,ySol);
-	obstacles =  [new Cactus(1,1,WIDTH),new Cactus(2,1,WIDTH * 1.5)];
+	obstacles =  [new Obstacle(1,1,WIDTH),new Obstacle(2,1,WIDTH * 1.5)];
 
 }
 
@@ -78,17 +79,19 @@ function draw(){
 	text('Score : ' + score , 0,40);
 
 	// monter le score
-	if(score>500){
-		let faster = Math.floor(score / 500);
-		vitObstacle = vitObstacleInit + faster;
-		// If the speed of the game is at a certain point only spawn 1 obstacle 
-		if(!oneObstacle){
-			if(score>2000 && obstacles[1].x >= WIDTH){
-				obstacles.splice(1,1);
-				oneObstacle = true;
-			}
+	
+	if(score % speedRate == 0){
+		vitObstacle ++;
+	}
+	// If the speed of the game is at a certain point only spawn 1 obstacle 
+	if(!oneObstacle){
+		if(score>1000 && obstacles[1].x >= WIDTH){
+			obstacles.splice(1,1);
+			speedRate /= 2;
+			oneObstacle = true;
 		}
 	}
+	
 	
 }
 
