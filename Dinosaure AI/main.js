@@ -38,7 +38,7 @@ function setup() {
     obstacles = [new Obstacle(1, 1, WIDTH), new Obstacle(2, 1, WIDTH * 1.5)];
 
     // load the images
-    dinoIdle = loadImage("assets/dinoIdle.png");
+    //dinoIdle = loadImage("assets/dinoIdle.png");
 }
 
 function draw() {
