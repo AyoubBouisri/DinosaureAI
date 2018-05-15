@@ -35,11 +35,10 @@ function Player(xInit, ySol) {
         }
         // Draw a rectangle that represents the player.
     this.show = function() {
-            fill(bg);
-
-
+            fill(0);
             stroke(130, 20, 0);
             rect(this.x, this.y, this.width, this.height);
+            // image(dinoIdle, 0, 0);
         }
         // makes the player jump, can only jump if not in the air.
     this.jump = function() {
