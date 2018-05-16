@@ -1,9 +1,9 @@
 function Player(xInit, ySol) {
-    const heightInit = 65;
-    this.height = heightInit;
-    this.width = 45;
+
+    this.height = dinoHeight;
+    this.width = dinoWidth;
     const yInit = ySol - this.height;
-    const jumpPower = -12;
+    const jumpPower = -8;
     this.vitY = 0;
     this.acc = 0;
 
@@ -35,10 +35,10 @@ function Player(xInit, ySol) {
         }
         // Draw a rectangle that represents the player.
     this.show = function() {
-            fill(0);
+            fill(bg);
             stroke(130, 20, 0);
-            rect(this.x, this.y, this.width, this.height);
-            // image(dinoIdle, 0, 0);
+            //rect(this.x, this.y, this.width, this.height);
+            image(dinoIdle, this.x, this.y);
         }
         // makes the player jump, can only jump if not in the air.
     this.jump = function() {
@@ -61,12 +61,12 @@ function Player(xInit, ySol) {
             // fall down faster
             if (isPressed) {
                 this.crouching = true;
-                this.height = heightInit / 2;
+                this.height = dinoHeight / 2;
                 this.y = yInit + this.height;
 
             } else {
                 this.crouching = false
-                this.height = heightInit;
+                this.height = dinoHeight;
                 this.y = yInit;
             }
 

@@ -1,12 +1,12 @@
-const WIDTH = 1000;
-const HEIGHT = 400;
+const WIDTH = 700;
+const HEIGHT = 230;
 //The x position of the player
 const xPlayer = 80;
 //The coordinates of the line that represents the ground and its offSet with where the player is.
-const ySol = HEIGHT - 50;
-const offSetSol = 20;
+const ySol = HEIGHT - 30;
+const offSetSol = 10;
 // The 3 grav acceleration to simulate a long/small/normal jump
-const gravNormal = 0.08;
+const gravNormal = 0.1;
 const gravFast = 0.3;
 const gravSlow = 0.04;
 // Initial speed of the obstacles
@@ -27,22 +27,40 @@ let gameOver = false;
 const bg = 247;
 const black = 83;
 // IMAGES 
-var dinoIdle;
+let dinoIdle;
+let smallCactus;
+let mediumCactus;
+let thiccCactus;
+let tallCactus;
 
+//valeur des images
+let dinoHeight = 42;
+let dinoWidth = 40;
 
+function preload() {
+    dinoIdle = loadImage("assets/dinoIdle.png");
+    smallCactus = loadImage("assets/smallCactus.png");
+    mediumCactus = loadImage("assets/mediumCactus.png");
+    thiccCactus = loadImage("assets/thiccCactus.png");
+    tallCactus = loadImage("assets/tallCactus.png");
+}
 
 function setup() {
     createCanvas(WIDTH, HEIGHT);
     background(51);
     dino = new Player(xPlayer, ySol);
-    obstacles = [new Obstacle(1, 1, WIDTH), new Obstacle(2, 1, WIDTH * 1.5)];
+    obstacles = [new Obstacle(WIDTH), new Obstacle(WIDTH * 1.5)];
 
     // load the images
-    dinoIdle = loadImage("assets/dinoIdle.png");
+
+    dinoHeight = dinoIdle.height;
+    dinoWidth = dinoIdle.width;
+
+
 }
 
 function draw() {
-    background(51);
+    background(bg);
     // draw the ground xd  
     stroke(black);
     line(0, ySol - offSetSol, WIDTH, ySol - offSetSol);
@@ -84,8 +102,8 @@ function draw() {
     }
     //afficher le score
     fill(83);
-    textSize(18);
-    text('SCORE : ' + score, 0, 40);
+    textSize(14);
+    text('SCORE : ' + score, 0, 20);
 
     // monter le score
 
@@ -94,7 +112,7 @@ function draw() {
     if (!oneObstacle) {
         if (score > 1000 && obstacles[1].x >= WIDTH) {
             obstacles.splice(1, 1);
-            speedRate /= 2;
+
             oneObstacle = true;
         }
     }
