@@ -1,5 +1,5 @@
-const WIDTH = 700;
-const HEIGHT = 230;
+const WIDTH = 600;
+const HEIGHT = 250;
 //The x position of the player
 const xPlayer = 80;
 //The coordinates of the line that represents the ground and its offSet with where the player is.
@@ -16,7 +16,7 @@ const vitObstacleInit = 5;
 let grav = gravNormal;
 
 let vitObstacle = vitObstacleInit;
-let acceleration = 0.001;
+let acceleration = 0.005;
 let score = 0;
 var obstacles;
 var dino;
@@ -28,14 +28,24 @@ const bg = 247;
 const black = 83;
 // IMAGES 
 let dinoIdle;
+let runningDino1;
+let runningDino2;
+let deadDino; // 07
+let crouchedDino1;
+let crouchedDino2;
 let smallCactus;
 let mediumCactus;
 let thiccCactus;
 let tallCactus;
+let bird1;
+let bird2;
 
-//valeur des images
-let dinoHeight = 42;
-let dinoWidth = 40;
+let frame = 1;
+let animationSpeed = 8;
+let cmptr = 0;
+
+
+
 
 function preload() {
     dinoIdle = loadImage("assets/dinoIdle.png");
@@ -43,6 +53,13 @@ function preload() {
     mediumCactus = loadImage("assets/mediumCactus.png");
     thiccCactus = loadImage("assets/thiccCactus.png");
     tallCactus = loadImage("assets/tallCactus.png");
+    crouchedDino1 = loadImage("assets/crouchedDino1.png");
+    crouchedDino2 = loadImage("assets/crouchedDino2.png");
+    runningDino1 = loadImage("assets/runningDino1.png");
+    runningDino2 = loadImage("assets/runningDino2.png");
+    deadDino = loadImage("assets/deadDino.png");
+    bird1 = loadImage("assets/bird1.png")
+    bird2 = loadImage("assets/bird2.png")
 }
 
 function setup() {
@@ -53,8 +70,7 @@ function setup() {
 
     // load the images
 
-    dinoHeight = dinoIdle.height;
-    dinoWidth = dinoIdle.width;
+
 
 
 }
@@ -101,7 +117,7 @@ function draw() {
         }
     }
     //afficher le score
-    fill(83);
+    stroke(83);
     textSize(14);
     text('SCORE : ' + score, 0, 20);
 
@@ -117,6 +133,17 @@ function draw() {
         }
     }
 
+
+    //update the animation frame
+
+    if (score % animationSpeed == 0) {
+        //change the frame
+        if (frame == 1) {
+            frame = 2;
+        } else {
+            frame = 1;
+        }
+    }
 
 }
 
