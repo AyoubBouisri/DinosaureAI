@@ -1,0 +1,38 @@
+[33mcommit d6ac13f6e71b824ed08e0acc9bd122e2fa86372a[m[33m ([m[1;36mHEAD -> [m[1;32mgh-pages[m[33m)[m
+Author: AyoubBouisri <ayoubbouisri@hotmail.fr>
+Date:   Fri May 11 11:24:54 2018 -0400
+
+    Updated the README!
+
+[33mcommit ef9f5371320e0804804572253e5fe0a0c22779b5[m[33m ([m[1;31morigin/gh-pages[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Author: AyoubBouisri <39037660+AyoubBouisri@users.noreply.github.com>
+Date:   Thu May 10 15:50:00 2018 -0400
+
+    Update README.md
+
+[33mcommit e4636bd7adb226acd665eec0489ce3a06ff2b48e[m
+Author: AyoubBouisri <39037660+AyoubBouisri@users.noreply.github.com>
+Date:   Thu May 10 15:47:11 2018 -0400
+
+    Simple first mechanics of the game
+    
+    Added a player that can be controlled with up/down/space.
+    Added some obstacles.
+
+[33mcommit b4ea414091fcd84376ae3c84f8ae4691001dab28[m
+Author: AyoubBouisri <39037660+AyoubBouisri@users.noreply.github.com>
+Date:   Thu May 10 15:45:34 2018 -0400
+
+    Update README.md
+
+[33mcommit 0ce9807a4268255d44896d729445f8e1a6fdb5c3[m
+Author: AyoubBouisri <39037660+AyoubBouisri@users.noreply.github.com>
+Date:   Thu May 10 10:31:21 2018 -0400
+
+    First commit to initialize the project.
+
+[33mcommit 207b819161c0be989b99a19a46dd7d7dcd64822a[m
+Author: AyoubBouisri <39037660+AyoubBouisri@users.noreply.github.com>
+Date:   Thu May 10 10:28:48 2018 -0400
+
+    Initial commit

@@ -1,6 +1,7 @@
 // width and height are int values width :={1,2,3} height:= {1,2}
-function Obstacle(xInit) {
+function Obstacle(xInit, sketch) {
 
+    this.sketch = sketch;
     this.wInt;
     this.hInt;
     this.height = smallCactus.height;
@@ -10,14 +11,13 @@ function Obstacle(xInit) {
     this.isBird = false;
     let img = smallCactus;
     this.show = function() {
-
-        stroke(244, 66, 56);
-        noFill();
         // hit box
-        //rect(this.x, this.y, this.width, this.height);
+        //this.sketch.stroke(244, 66, 56);
+        //this.sketch.noFill();
+        //this.sketch.rect(this.x, this.y, this.width, this.height);
 
         if (this.isBird) {
-            if (frame == 1) {
+            if (this.sketch.frame == 1) {
                 img = bird1;
 
 
@@ -27,25 +27,26 @@ function Obstacle(xInit) {
             }
 
         }
-        image(img, this.x, this.y);
+        this.sketch.image(img, this.x, this.y);
 
 
 
     }
 
     this.update = function() {
-            this.x -= vitObstacle;
+            this.x -= this.sketch.vitObstacle;
 
             if (this.x + this.width <= 0) {
-                this.reset();
+                this.reset(WIDTH);
             }
 
         }
         // Reset la position et la forme du cactus
-    this.reset = function() {
-        this.x = WIDTH;
-        this.wInt = Math.floor(random(1, 4));
-        this.hInt = Math.floor(random(1, 3));
+    this.reset = function(x) {
+        this.x = x;
+        this.wInt = Math.floor(this.sketch.random(2, 4));
+        this.hInt = Math.floor(this.sketch.random(1, 3));
+
 
 
         this.isBird = false;

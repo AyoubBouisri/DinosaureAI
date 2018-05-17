@@ -1,5 +1,6 @@
-function Player(xInit, ySol) {
+function Player(xInit, ySol, sketch, hasBrain, brain) {
 
+    this.sketch = sketch;
     this.height = dinoIdle.height;
     this.width = dinoIdle.width - 15;
     const yInit = ySol - this.height;
@@ -17,11 +18,25 @@ function Player(xInit, ySol) {
     this.img = dinoIdle;
 
 
+    if (hasBrain) {
+        if (brain instanceof NeuralNetwork) {
+            this.brain = brain.copy();
+            this.brain.mutate(mutation);
 
+        } else {
+            // 4 inputs -> dinos y , dinos ySpeed , closest obstacle x, closest obstacle y
+            // 3 outputs -> up,down,nothing
+            this.brain = new NeuralNetwork(5, 5, 3);
+        }
+        this.score = 0;
+        this.fitness = 0;
+
+    }
     // Update the dinosaur according to the force of gravity.
     this.update = function() {
+            this.score++;
             if (this.inAir) {
-                this.acc += grav;
+                this.acc += this.sketch.grav;
                 this.vitY += this.acc;
                 this.y += this.vitY;
 
@@ -39,11 +54,12 @@ function Player(xInit, ySol) {
         }
         // Draw a rectangle that represents the player.
     this.show = function() {
-        noFill();
-        stroke(244, 66, 56);
         // hit box
+        //this.sketch.noFill();
+        //this.sketch.stroke(244, 66, 56);
         //rect(this.x, this.y, this.width, this.height);
-        if (gameOver) {
+
+        if (sketch.gameOver) {
             this.img = deadDino;
             this.height = deadDino.height;
             this.width = deadDino.width;
@@ -53,14 +69,81 @@ function Player(xInit, ySol) {
 
         }
 
-        image(this.img, this.xSprite, this.y);
-
-
-
+        this.sketch.image(this.img, this.xSprite, this.y);
 
     }
+    this.findClosest = function(obstacles) {
+        let closestDist = Infinity;
+        let closestObst = null;
+        for (let obstacle of obstacles) {
+            //if behind dont calculate
+            if (obstacle.x + obstacle.width > this.x) {
+                if (obstacle.x - this.x < closestDist) {
+                    closestDist = obstacle.x - this.x;
+                    closestObst = obstacle;
+                }
+            }
+        }
 
-    // makes the player jump, can only jump if not in the air.
+        return closestObst;
+    }
+    this.copy = function() {
+        return new Player(xInit, ySol, this.sketch, true, this.brain);
+    }
+    this.think = function(obstacles) {
+            // create the inputs 
+
+            let inputs = [];
+            let closest = this.findClosest(obstacles);
+            inputs[0] = this.y / HEIGHT; // y input
+            inputs[1] = this.vitY / jumpPower; // y Speed
+            if (closest) {
+                inputs[2] = (closest.x - this.x) / WIDTH; // distance from the closest
+                inputs[3] = (closest.y - this.y) / (HEIGHT / 1.5); // distance y from the closest
+            } else {
+                inputs[2] = 0.0;
+                inputs[3] = 0.0;
+            }
+
+            inputs[4] = sketch.vitObstacle / 50;
+
+
+
+
+            let outputs = this.brain.predict(inputs);
+
+            // find the highest output 
+            let highest = 0;
+            let index = 0;
+            for (let i = 0; i < outputs.length; i++) {
+                if (outputs[i] > highest) {
+                    highest = outputs[i];
+                    index = i;
+                }
+            }
+
+            // according to the highest output, make a move
+            /*
+				1 = up
+				2 = down
+				3 = nothing
+           	*/
+
+            if (index == 1) {
+                if (!this.inAir) {
+                    this.jump();
+                }
+                this.up(true);
+            } else {
+                this.up(false);
+                if (index == 2) {
+                    this.down(true);
+                } else {
+                    this.down(false);
+                }
+            }
+        }
+        // makes the player jump, can only jump if not in the air.
     this.jump = function() {
 
         if (!this.inAir) {
@@ -69,7 +152,7 @@ function Player(xInit, ySol) {
             if (this.crouching) {
                 this.crouching = false;
                 this.height = dinoIdle.height;
-                this.width = dinoWidth - 15;
+                this.width = dinoIdle.width - 15;
                 this.y = yInit;
                 this.img = dinoIdle;
             }
@@ -87,7 +170,7 @@ function Player(xInit, ySol) {
                 this.height = crouchedDino1.height;
                 this.width = crouchedDino1.width - 15;
                 this.y = yInit + this.height;
-                if (frame == 1) {
+                if (this.sketch.frame == 1) {
                     this.img = crouchedDino1;
                 } else {
                     this.img = crouchedDino2;
@@ -95,7 +178,7 @@ function Player(xInit, ySol) {
 
 
             } else {
-                if (frame == 1) {
+                if (this.sketch.frame == 1) {
                     this.img = runningDino1;
                 } else {
                     this.img = runningDino2;
@@ -111,9 +194,9 @@ function Player(xInit, ySol) {
         } else {
             // The player is in the air so make him fall faster 
             if (isPressed) {
-                grav = gravFast;
+                this.sketch.grav = gravFast;
             } else {
-                grav = gravNormal;
+                this.sketch.grav = gravNormal;
             }
 
         }
@@ -123,9 +206,9 @@ function Player(xInit, ySol) {
         if (this.inAir) {
             // the player is in the air so make him fall slower
             if (isPressed) {
-                grav = gravSlow;
+                this.sketch.grav = gravSlow;
             } else {
-                grav = gravNormal;
+                this.sketch.grav = gravNormal;
             }
         }
     }
