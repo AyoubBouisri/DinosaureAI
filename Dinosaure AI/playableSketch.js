@@ -32,6 +32,8 @@ var playableSketch = function(sketch) {
 
     sketch.frame = 1;
 
+    sketch.pause = true;
+
 
 
     sketch.preload = function() {
@@ -59,87 +61,90 @@ var playableSketch = function(sketch) {
     }
 
     sketch.draw = function() {
-        sketch.background(bg);
-        // draw the ground xd  
-        sketch.stroke(black);
-        sketch.line(0, ySol - offSetSol, WIDTH, ySol - offSetSol);
+        if (!sketch.pause) {
+
+            sketch.background(bg);
+            // draw the ground xd  
+            sketch.stroke(black);
+            sketch.line(0, ySol - offSetSol, WIDTH, ySol - offSetSol);
 
 
 
-        // events to controle the dino
-        if (sketch.keyIsDown(sketch.UP_ARROW) || sketch.keyIsDown(32)) {
-            if (sketch.gameOver) {
-                // restart
-                sketch.restart();
-            } else {
-                if (!sketch.dino.inAir) {
-                    sketch.dino.jump();
-                }
-                sketch.dino.up(true);
-            }
-
-        } else {
-            if (!sketch.gameOver) {
-                sketch.dino.up(false);
-                if (sketch.keyIsDown(sketch.DOWN_ARROW)) {
-                    sketch.dino.down(true);
+            // events to controle the dino
+            if (sketch.keyIsDown(sketch.UP_ARROW) || sketch.keyIsDown(32)) {
+                if (sketch.gameOver) {
+                    // restart
+                    sketch.restart();
                 } else {
-                    sketch.dino.down(false);
+                    if (!sketch.dino.inAir) {
+                        sketch.dino.jump();
+                    }
+                    sketch.dino.up(true);
+                }
+
+            } else {
+                if (!sketch.gameOver) {
+                    sketch.dino.up(false);
+                    if (sketch.keyIsDown(sketch.DOWN_ARROW)) {
+                        sketch.dino.down(true);
+                    } else {
+                        sketch.dino.down(false);
+                    }
                 }
             }
-        }
 
 
 
 
-        // draw and update the dinosaur
+            // draw and update the dinosaur
 
-        if (!sketch.gameOver) {
-
-            sketch.dino.update();
-            sketch.score++;
-        }
-        sketch.dino.show();
-        // draw and update the obstacles
-        for (let i = 0; i < sketch.obstacles.length; i++) {
             if (!sketch.gameOver) {
-                sketch.obstacles[i].update();
+
+                sketch.dino.update();
+                sketch.score++;
             }
-            sketch.obstacles[i].show();
-            // check if the player intersects this obstacle
+            sketch.dino.show();
+            // draw and update the obstacles
+            for (let i = 0; i < sketch.obstacles.length; i++) {
+                if (!sketch.gameOver) {
+                    sketch.obstacles[i].update();
+                }
+                sketch.obstacles[i].show();
+                // check if the player intersects this obstacle
 
-            if (sketch.obstacles[i].intersects(sketch.dino)) {
-                sketch.gameOver = true;
+                if (sketch.obstacles[i].intersects(sketch.dino)) {
+                    sketch.gameOver = true;
+                }
+
+            }
+            //afficher le score
+            sketch.stroke(83);
+            sketch.fill(83);
+            sketch.textSize(14);
+            sketch.text(sketch.score, 0, 20);
+
+            // monter le score
+
+            sketch.vitObstacle += acceleration;
+            // If the speed of the game is at a certain point only spawn 1 obstacle 
+            if (!sketch.oneObstacle) {
+                if (sketch.score > 700 && sketch.obstacles[1].x >= WIDTH) {
+                    sketch.obstacles.splice(1, 1);
+
+                    sketch.oneObstacle = true;
+                }
             }
 
-        }
-        //afficher le score
-        sketch.stroke(83);
-        sketch.fill(83);
-        sketch.textSize(14);
-        sketch.text(sketch.score, 0, 20);
 
-        // monter le score
+            //update the animation frame
 
-        sketch.vitObstacle += acceleration;
-        // If the speed of the game is at a certain point only spawn 1 obstacle 
-        if (!sketch.oneObstacle) {
-            if (sketch.score > 700 && sketch.obstacles[1].x >= WIDTH) {
-                sketch.obstacles.splice(1, 1);
-
-                sketch.oneObstacle = true;
-            }
-        }
-
-
-        //update the animation frame
-
-        if (sketch.score % animationSpeed == 0) {
-            //change the frame
-            if (sketch.frame == 1) {
-                sketch.frame = 2;
-            } else {
-                sketch.frame = 1;
+            if (sketch.score % animationSpeed == 0) {
+                //change the frame
+                if (sketch.frame == 1) {
+                    sketch.frame = 2;
+                } else {
+                    sketch.frame = 1;
+                }
             }
         }
 
@@ -150,6 +155,7 @@ var playableSketch = function(sketch) {
         sketch.obstacles = [new Obstacle(WIDTH, sketch), new Obstacle(WIDTH * 1.5, sketch)];
         this.score = 0;
         this.vitObstacle = vitObstacleInit;
+
         this.gameOver = false;
     }
 

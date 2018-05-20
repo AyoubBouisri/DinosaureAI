@@ -3,22 +3,8 @@
 <head>
 	<title>Dinosaure Artificial Intelligence</title>
 	<meta charset="utf-8">
-	<style type="text/css">
-			body{
-			background-color: rgb(247,247,247);
-			}
-			canvas{
-				padding-left: 0;
-	    		padding-right: 0;
-	    		margin-left: auto;
-	   			margin-right: auto;
-	    		display: block;
-	    		width: 800px;
-			}
-
-
-
-	</style>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<script type="text/javascript"></script>
 	<script type="text/javascript" src="libraries/p5.js"></script>
 	<script type="text/javascript" src="libraries/p5.dom.js"></script>
 	<script type="text/javascript" src="libraries/nn.js"></script>
@@ -28,10 +14,78 @@
 	<script type="text/javascript" src="geneticAl.js"></script>
 	<script type="text/javascript" src="player.js"></script>
 	<script type="text/javascript" src="obstacle.js"></script>
+
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+	
+	
+
+	
 </head>
 <body>
-	<div id = "playableSketch"></div>
-	<div id = "AISketch"></div>
+	<div class = "buttons" >
+		<button class = "button" id = "buttonPlay" onclick = "switchToPlay()">PLAY</button>
+		<button class = "button" id = "buttonTrain" onclick = "switchToTrain()">TRAIN</button>
+		<button class = "button" id = "buttonChallenge" onclick = "switchToChallenge()">CHALLENGE</button>
+	</div>
+	
+	<div id = "playableSketch">
+		<p class = "title">PLAY</p>	
+	</div>
+	<div id = "AISketch">
+		<p class = "title">TRAIN YOUR AI</p>	
+	</div>
+	<div id = "challenge">
+			<p class = "title">YOU VS THE AI</p>	
+	</div>
+
+	
 
 </body>
 </html>
+
+
+<script type="text/javascript">
+		//buttons
+		var bPlay = document.getElementById("buttonPlay");
+		var bTrain = document.getElementById("buttonTrain");
+		bTrain.disabled = true;
+		var bChallenge = document.getElementById("buttonChallenge");
+		//sketchs 
+		var sPlay = document.getElementById("playableSketch");
+		var sTrain = document.getElementById("AISketch");
+
+		function switchToPlay(){
+			bPlay.disabled = true;
+			bTrain.disabled = false;
+			bChallenge.disabled = false;
+			
+			sPlay.style.display = 'block';
+			sTrain.style.display = 'none';
+			// reset the game to the beginning
+			playableP5.restart();
+			//unpause
+			playableP5.pause = false;
+
+			console.log(playableP5.pause);
+
+
+			
+			
+
+		}
+		function switchToTrain(){
+			bTrain.disabled = true;
+			bPlay.disabled = false;
+			bChallenge.disabled = false;
+
+			sPlay.style.display = 'none';
+			sTrain.style.display = 'block';
+		
+		}
+		function switchToChallenge(){
+			bChallenge.disabled = true;
+			bTrain.disabled = false;
+			bPlay.disabled = false;
+
+		}
+	</script>

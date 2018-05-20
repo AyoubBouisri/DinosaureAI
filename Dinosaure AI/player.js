@@ -26,8 +26,9 @@ function Player(xInit, ySol, sketch, hasBrain, brain) {
         } else {
             // 4 inputs -> dinos y , dinos ySpeed , closest obstacle x, closest obstacle y
             // 3 outputs -> up,down,nothing
-            this.brain = new NeuralNetwork(5, 5, 3);
+            this.brain = new NeuralNetwork(5, 8, 3);
         }
+
         this.score = 0;
         this.fitness = 0;
 
@@ -130,6 +131,7 @@ function Player(xInit, ySol, sketch, hasBrain, brain) {
            	*/
 
             if (index == 1) {
+
                 if (!this.inAir) {
                     this.jump();
                 }
@@ -137,8 +139,10 @@ function Player(xInit, ySol, sketch, hasBrain, brain) {
             } else {
                 this.up(false);
                 if (index == 2) {
+
                     this.down(true);
                 } else {
+
                     this.down(false);
                 }
             }
