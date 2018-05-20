@@ -1,8 +1,8 @@
 # DinosaureAI
-An AI that learns to play the dinosaur running game.
+An AI that learns to play the T-Rex running game.
 
 This is a project to recreate the T-Rex running game found here : http://www.trex-game.skipser.com/
-Then to create an AI that learns to play it using a genetic algrotihm and a neural network.
+Then to create an AI that learns to play it using a genetic algorithm and neural networks.
 
 This project is mainly to get familiar with JavaScript, the use of Git and GitHub and to get some experience with neural network libraries.
 
